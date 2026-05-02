@@ -31,7 +31,7 @@ Requires Python 3.8+ (pre-installed on macOS and Linux). On Windows, use WSL —
 | `10-notes/` | Daily notes, ideas, meeting logs, personal notes |
 | `12-mocs/` | Maps of Content — curated wayfinding pages between domains |
 | `20-knowledge/` | Evergreen knowledge: AI, tech, business, concepts |
-| `30-projects/` | Active project docs, specs, and decision logs |
+| `30-projects-active/` | Active project docs, specs, and decision logs |
 | `40-library/` | Bookmarks, books, papers, media |
 | `50-system/` | Agent rules, scripts, state files |
 | `90-archive/` | Completed projects and cold storage |
@@ -57,8 +57,8 @@ Three versions of the operating schema are included — pick the one that fits:
 | Version | File | Description |
 |---|---|---|
 | Starter (default) | `CLAUDE.md` | Clean, minimal — everything a new vault needs |
-| Full | `_meta/claude-versions/CLAUDE-A-full.md` | Adds lint workflow and quality checklists |
-| Template | `_meta/claude-versions/CLAUDE-C-template.md` | Used by `init.py` for personalized generation |
+| Full | `_meta/claude-versions/claude-a-full.md` | Adds lint workflow and quality checklists |
+| Template | `_meta/claude-versions/claude-c-template.md` | Used by `init.py` for personalized generation |
 
 See `_meta/claude-versions/README.md` for how to swap versions.
 
@@ -66,4 +66,4 @@ See `_meta/claude-versions/README.md` for how to swap versions.
 
 - [`_meta/docs/architecture.md`](./_meta/docs/architecture.md) — how the vault works
 - [`_meta/docs/token-efficiency.md`](./_meta/docs/token-efficiency.md) — conventions for lean AI context
-- [`VAULT-ARCHITECTURE.md`](./VAULT-ARCHITECTURE.md) — naming conventions, tag taxonomy, workflows
+- [`vault-architecture.md`](./vault-architecture.md) — naming conventions, tag taxonomy, workflows

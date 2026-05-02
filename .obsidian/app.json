@@ -2,5 +2,19 @@
   "spellcheck": true,
   "spellcheckDictionary": [],
   "legacyEditor": false,
-  "livePreview": true
+  "livePreview": true,
+  "defaultViewMode": "preview",
+  "readableLineLength": false,
+  "strictLineBreaks": false,
+  "openBehavior": "file:Home",
+  "newFileLocation": "folder",
+  "newFileFolderPath": "10-notes/",
+  "attachmentFolderPath": "_assets",
+  "alwaysUpdateLinks": true,
+  "userIgnoreFilters": [
+    "_assets/",
+    "90-archive/",
+    "_meta/",
+    "50-system/"
+  ]
 }

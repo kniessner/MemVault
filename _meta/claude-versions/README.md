@@ -5,8 +5,8 @@ Three versions of the vault operating schema. Pick the one that fits your workfl
 | Version | File | Best for |
 |---|---|---|
 | **B — Starter** (current default) | `CLAUDE.md` at vault root | New users — clean, minimal, everything you need |
-| **A — Full** | `CLAUDE-A-full.md` | Power users who want the complete schema with lint workflow and quality checklists |
-| **C — Template** | `CLAUDE-C-template.md` | Used by `init.py` to generate a personalized CLAUDE.md with `${variable}` substitution |
+| **A — Full** | `claude-a-full.md` | Power users who want the complete schema with lint workflow and quality checklists |
+| **C — Template** | `claude-c-template.md` | Used by `init.py` to generate a personalized CLAUDE.md with `${variable}` substitution |
 
 ## How to switch
 
@@ -14,7 +14,7 @@ Replace the vault root `CLAUDE.md` with your preferred version:
 
 ```bash
 # Switch to Full (Version A)
-cp _meta/claude-versions/CLAUDE-A-full.md CLAUDE.md
+cp _meta/claude-versions/claude-a-full.md CLAUDE.md
 
 # Reset to Starter (Version B)
 # Just run: python3 init.py

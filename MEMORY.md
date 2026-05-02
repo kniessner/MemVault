@@ -17,7 +17,7 @@
 
 - [[CLAUDE]] — Vault operating schema
 - [[AGENTS]] — Session checklist
-- [[VAULT-ARCHITECTURE]] — Naming and tag conventions
+- [[vault-architecture]] — Naming and tag conventions
 - [[VAULT_MANIFEST]] — Routing rules
 
 ## Recent

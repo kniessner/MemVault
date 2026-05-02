@@ -12,8 +12,8 @@ This folder is home. Treat it that way.
 2. **Read `USER.md`** — this is who you're helping
 3. **Read `CLAUDE.md`** — vault navigation guide and structure
 4. **Read `TOOLS.md`** — SSH hosts, API keys, devices, web research tools
-5. **Read `50-system/AGENTS/workflow.md`** — every session checklist
-6. **Read `50-system/AGENTS/data-architecture.md`** — canonical storage rules
+5. **Read `50-system/agents/workflow.md`** — every session checklist
+6. **Read `50-system/agents/data-architecture.md`** — canonical storage rules
 7. **Read `10-notes/10-daily/YYYY-MM-DD*.md`** (today + yesterday) for recent context
 8. **If in MAIN SESSION**: Also read `MEMORY.md`
 
@@ -23,10 +23,10 @@ This folder is home. Treat it that way.
 
 | File | Purpose |
 |------|---------|
-| `50-system/AGENTS/workflow.md` | Every session checklist, skills discovery |
-| `50-system/AGENTS/security.md` | Safety rules, boundaries, heartbeats |
-| `50-system/AGENTS/orchestration.md` | Subagent protocol, cost tracking, notifications |
-| `50-system/AGENTS/data-architecture.md` | Canonical storage map and write rules |
+| `50-system/agents/workflow.md` | Every session checklist, skills discovery |
+| `50-system/agents/security.md` | Safety rules, boundaries, heartbeats |
+| `50-system/agents/orchestration.md` | Subagent protocol, cost tracking, notifications |
+| `50-system/agents/data-architecture.md` | Canonical storage map and write rules |
 | `50-system/skills/` | Agent skills (obsidian, bookmark, etc.) |
 | `TOOLS.md` | Environment-specific notes (SSH, API keys, web research) |
 

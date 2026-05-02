@@ -29,7 +29,7 @@ When storing content, use this table:
 | AI tools | `20-knowledge/ai/tools/` |
 | Tech platforms | `20-knowledge/tech/` |
 | Business knowledge | `20-knowledge/business/` |
-| Active project docs | `30-projects/YYYY-name/` |
+| Active project docs | `30-projects-active/YYYY-name/` |
 | Bookmarks / saved pages | `40-library/bookmarks/` |
 | Books, papers, courses | `40-library/` |
 | Session artifacts | `50-system/conversations/` |

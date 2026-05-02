@@ -32,7 +32,7 @@ When writing files to MemVault, you MUST use only existing top-level directories
 | `10-notes/` | Daily notes, ideas, meetings, personal |
 | `12-mocs/` | Maps of Content — curated wayfinding between domains |
 | `20-knowledge/` | Curated evergreen knowledge |
-| `30-projects/` | Active project artifacts |
+| `30-projects-active/` | Active project artifacts |
 | `40-library/` | Bookmarks, movies, books, papers, people |
 | `50-system/` | Scripts, agent rules, state, logs |
 | `50-system/conversations/` | AI session artifacts, raw research, intermediate reasoning |

@@ -7,6 +7,10 @@ tags:
   - ai
 ---
 
+
+> A MOC (Map of Content) is a curated index note that connects concepts across the vault. Unlike a folder index, it links by topic, not just by location.
+
+
 ## Providers
 
 - [[anthropic]]

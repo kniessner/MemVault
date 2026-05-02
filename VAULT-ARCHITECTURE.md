@@ -4,7 +4,7 @@
 
 > **Concept:** This vault implements the [LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) — a compounding knowledge system where AI maintains interlinked markdown files that get richer with every source added.
 
-Primary agent operating rules: `50-system/AGENTS/vault-operating-system.md`
+Primary agent operating rules: `50-system/agents/vault-operating-system.md`
 
 ---
 
@@ -30,7 +30,7 @@ MemVault/
 ├── 10-notes/                 # Core personal notes
 │   ├── 10-daily/             # Daily logs
 │   ├── 20-ideas/             # Fleeting notes, thoughts
-│   ├── 30-projects/          # Project support docs
+│   ├── 30-projects-active/    # Active project docs
 │   ├── 40-resources/         # Bookmarks, articles, references
 │   └── 50-personal/          # Private: health, finance, etc.
 │
@@ -40,7 +40,7 @@ MemVault/
 │   ├── business/             # Business/marketing
 │   └── concepts/             # Concepts, frameworks, methods
 │
-├── 30-projects/       # Active work
+├── 30-projects-active/  # Active work
 │   ├── YYYY-project-name/    # Naming: YEAR-descriptive-name
 │   └── _template/            # Project starter template
 │
@@ -174,14 +174,14 @@ related: [[Link to related note]]
    - **Trash?** → Move to `90-archive/_graveyard/`
    - **Quick task?** → Add to task manager, delete file
    - **Reference?** → Move to `10-notes/20-ideas/` or `40-resources/`
-   - **Project-related?** → Move to `30-projects/PROJECT/`
+   - **Project-related?** → Move to `30-projects-active/PROJECT/`
    - **Knowledge?** → Move to `20-knowledge/` with proper structure
 3. Inbox should be **empty** after processing
 
 ### Weekly Review (Every Sunday)
 
 1. Review `10-notes/10-daily/` — summarize into weekly note
-2. Check `30-projects/` — update status, archive completed
+2. Check `30-projects-active/` — update status, archive completed
 3. Update `MEMORY.md` with weekly insights
 
 ### Monthly Archive
@@ -199,7 +199,7 @@ related: [[Link to related note]]
 **Active Projects Dashboard:**
 ```dataview
 TABLE status, priority, deadline
-FROM "30-projects"
+FROM "30-projects-active"
 WHERE status != "archived"
 SORT priority ASC, deadline ASC
 ```

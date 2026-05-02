@@ -1,41 +1,164 @@
 ---
-title: "AI Knowledge Index"
-description: "Index of AI providers, models, concepts, and tools in this vault"
-created: 2026-01-01
+title: AI Knowledge Base
+created: 2026-03-30
+updated: 2026-04-07
 tags:
   - type/index
-  - ai
+  - topic/ai
+  - status/active
 ---
 
-## Providers
+# 🤖 AI Knowledge Base
 
-| Name | Status | Notes |
-|---|---|---|
-| Anthropic | active | Claude model family; API + Claude.ai |
-| OpenAI | active | GPT model family; API + ChatGPT |
-| Google DeepMind | active | Gemini model family; Vertex AI |
+*Curated information about AI providers, models, tools, and concepts.*
 
-## Models
+## Structure
 
-| Name | Provider | Notes |
-|---|---|---|
-| Claude Sonnet | Anthropic | Strong reasoning, long context, tool use |
-| GPT-4o | OpenAI | Multimodal, fast, widely deployed |
-| Gemini 1.5 Pro | Google DeepMind | 1M token context window |
+```
+ai/
+├── providers/     # AI providers & platforms
+├── models/        # Specific model documentation
+├── tools/         # AI tools, SDKs, frameworks
+└── concepts/      # AI concepts, patterns, techniques
+```
 
-## Concepts
+---
 
-| Name | Description |
-|---|---|
-| [[retrieval-augmented-generation\|RAG]] | Grounding LLM outputs in a private document corpus at query time |
-| [[agents]] | LLMs that plan and execute multi-step tasks using tools |
-| Embeddings | Dense vector representations of text for semantic search |
-| Prompt Engineering | Techniques to reliably steer LLM behaviour |
+## 🗂️ Ordner-Struktur
 
-## Tools
+```
+20-knowledge/ai/
+├── models/         # Modell-Spezifikationen & Vergleiche
+├── providers/      # API-Provider & Plattformen
+├── tools/          # AI-Tools & Frameworks
+├── concepts/       # Patterns, Memory, Prompting, Architektur
+├── alternatives-*.md  # Vergleiche
+└── index.md        # Diese Übersicht
+```
 
-| Name | Description |
-|---|---|
-| LangChain | Python framework for building LLM-powered applications |
-| LlamaIndex | Data framework for RAG pipelines |
-| Ollama | Run open-weight models locally via CLI |
+**Nutzen:**
+- Modell-Vergleiche und Preise
+- Provider-Analysen
+- Architektur-Patterns
+- Prompting-Techniken
+
+---
+
+## 🧠 Modelle
+
+→ **[[models/index|All Models & Comparison Matrix]]**
+
+| Modell | Provider | Kontext | Best For |
+|--------|----------|---------|----------|
+| Claude 3.7 Sonnet | [[providers/anthropic|Anthropic]] | 200K | Coding, reliability |
+| GPT-4o | [[providers/openai|OpenAI]] | 128K | Multimodal, general |
+| Gemini 2.0 Pro | [[providers/google|Google]] | 2M | Long context, video |
+| Kimi K2.5 | [[providers/moonshot-ai|Moonshot]] | 256K-2M | Ultra-long docs |
+
+---
+
+## 🌐 Provider
+
+→ **[[providers/index|All 10 Providers & Comparison Matrix]]**
+
+| Provider | Besonderheit | Modelle |
+|----------|--------------|---------|
+| [[providers/anthropic|Anthropic]] | Safety, Claude 3.7 | Sonnet, Haiku |
+| [[providers/fal-ai|fal.ai]] | 1,000+ generative media models | FLUX, Kling, Seedance |
+| [[providers/google|Google]] | 2M context, multimodal | Gemini 2.0 Pro/Flash |
+| [[providers/groq|Groq]] | Ultra-fast inference | Llama, Mixtral |
+| [[providers/lm-studio|LM Studio]] | GUI for local LLMs | Any GGUF |
+| [[providers/moonshot-ai|Moonshot AI]] | Ultra-long context (2M) | Kimi Modelle |
+| [[providers/ollama|Ollama]] | Simple local deployment | Llama, DeepSeek |
+| [[providers/openai|OpenAI]] | GPT-4, DALL-E, Whisper | API & ChatGPT |
+| [[providers/openrouter|OpenRouter]] | Multi-provider routing | 300+ models |
+| [[providers/perplexity|Perplexity]] | Research, citations | Sonar |
+| [[providers/z-ai|Z.ai]] | Agentic Engineering | GLM-5 |
+
+---
+
+## 🛠️ Tools
+
+→ **[[tools/index|All Tools & Frameworks]]**
+
+### Coding Agents
+
+| Tool | Category | Best For |
+|------|----------|----------|
+| [[tools/oh-my-codex|oh-my-codex]] | Codex Enhancement | Workflow layer for OpenAI Codex |
+| [[tools/claw-code|claw-code]] | Coding Agent | Clean-room Claude Code rewrite |
+
+### RAG & Document AI
+
+| Tool | Category | Best For |
+|------|----------|----------|
+| [[tools/pageindex|PageIndex]] | Reasoning RAG | Vectorless document retrieval |
+
+### Local Inference
+
+| Tool | Category | Best For |
+|------|----------|----------|
+| [[tools/omlx|oMLX]] | macOS Inference | Apple Silicon with SSD KV caching |
+| [[tools/llama-cpp|llama.cpp]] | Local Inference | Cross-platform performance |
+| [[tools/local-llm-tools|Local LLM Tools]] | Comparison | Choosing tools |
+| [[tools/ollama|Ollama]] | Local Deployment | Simple setup |
+
+### Knowledge Management
+
+| Tool | Category | Best For |
+|------|----------|----------|
+| [[tools/obsidian|Obsidian]] | Knowledge | AI-powered notes |
+
+**Categories:** Coding Agents • RAG/Document AI • Local Inference • Cloud Platforms • Frameworks • Vector DBs
+
+---
+
+## 💡 Konzepte
+
+→ **[[concepts/index|All Concepts & Patterns]]**
+
+| Konzept | Category | Beschreibung |
+|---------|----------|--------------|
+| [[concepts/socius-memory-architecture|Socius Memory]] | Memory | Biologisch inspirierte Architektur |
+| [[concepts/agentic-research-knowledge-workflows|Agentic Research]] | Agents | Systematic research workflows |
+
+---
+
+## 🔄 Alternativen
+
+- [[alternatives-gemini|Gemini API Alternatives]] — OpenAI, Claude, Mistral...
+
+---
+
+## 📚 Ressourcen
+
+- **Bookmarks:** `[[40-library/bookmarks/index|Archivierte AI-Webseiten]]`
+- **Papers:** `[[40-library/papers/index|Research Papers]]`
+- **News:** `[[10-notes/20-ideas/ai-news|AI News & Updates]]`
+
+---
+
+## ➕ Neue Einträge
+
+### Provider hinzufügen:
+```markdown
+---
+title: Provider Name
+url: https://provider.com
+tags: [ai, provider]
+---
+```
+→ In `20-knowledge/ai/providers/`
+
+### Konzept hinzufügen:
+```markdown
+---
+title: Concept Name
+tags: [ai, concept]
+---
+```
+→ In `20-knowledge/ai/concepts/`
+
+---
+
+*Letzte Aktualisierung: 2026-04-05*

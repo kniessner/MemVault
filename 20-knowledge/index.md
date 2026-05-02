@@ -110,10 +110,10 @@ for (const f of allContentFiles) {
 const links = div(root, S.card + "opacity:0.5;font-size:0.82em;");
 links.createEl("span", { text: "Related", attr: { style: S.label }});
 const linkGrid = div(links, "display:flex;gap:12px;");
-lnk(linkGrid, "📦 Projects", "30-projects/index", "font-size:0.85em;");
+lnk(linkGrid, "📦 Projects", "30-projects-active/index", "font-size:0.85em;");
 lnk(linkGrid, "📅 Daily Notes", "10-notes/10-daily", "font-size:0.85em;");
 lnk(linkGrid, "📚 Library", "40-library/index", "font-size:0.85em;");
-lnk(linkGrid, "🏠 Home", "Home", "font-size:0.85em;");
+lnk(linkGrid, "🏠 Home", "home", "font-size:0.85em;");
 
 // ── Quick Actions ──
 const actions = div(root, S.card + "font-size:0.82em;");
