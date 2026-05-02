@@ -3,15 +3,29 @@
   "search": "",
   "showTags": false,
   "showAttachments": false,
-  "hideUnresolved": false,
-  "showOrphans": true,
+  "hideUnresolved": true,
+  "showOrphans": false,
   "collapse-color-groups": false,
   "colorGroups": [
     {
-      "query": "tag:#agents  ",
+      "query": "path:40-library  ",
       "color": {
         "a": 1,
         "rgb": 14701138
+      }
+    },
+    {
+      "query": "path:20-knowledge  ",
+      "color": {
+        "a": 1,
+        "rgb": 12633102
+      }
+    },
+    {
+      "query": "path:10-notes  ",
+      "color": {
+        "a": 1,
+        "rgb": 11206400
       }
     }
   ],
@@ -23,8 +37,8 @@
   "collapse-forces": false,
   "centerStrength": 0.518713248970312,
   "repelStrength": 10,
-  "linkStrength": 0.987369791666667,
+  "linkStrength": 1,
   "linkDistance": 250,
-  "scale": 0.8115730310931346,
-  "close": false
+  "scale": 1.8951859307936396,
+  "close": true
 }
