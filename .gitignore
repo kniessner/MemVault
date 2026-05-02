@@ -1,0 +1,27 @@
+# Secrets
+.env
+
+# Obsidian workspace state (personal, changes constantly)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# Personal notes (exclude from shared git history)
+10-notes/50-personal/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Session artifacts (transient)
+50-system/conversations/sessions/
+
+# Python
+__pycache__/
+*.pyc
+.python-version
+
+# Init script state (per-user, not shared)
+.vault-initialized
+
+# Development artifacts (planning docs, not shipped)
+_meta/superpowers/

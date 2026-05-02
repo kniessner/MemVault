@@ -1,0 +1,55 @@
+{
+  "_comment": "Canonical vault structure — all agents must respect this. Never create new top-level directories.",
+  "vault_name": "MemVault",
+  "version": "1.0.0",
+  "allowed_top_level": [
+    "00-inbox", "10-notes", "12-mocs", "20-knowledge",
+    "30-projects", "40-library", "50-system",
+    "50-system/conversations", "90-archive", "_meta", "_assets"
+  ],
+  "routing": {
+    "quick_capture": "00-inbox/",
+    "daily_notes": "10-notes/10-daily/",
+    "ideas": "10-notes/20-ideas/",
+    "meeting_notes": "10-notes/30-meetings/",
+    "personal_notes": "10-notes/50-personal/",
+    "ai_providers": "20-knowledge/ai/providers/",
+    "ai_models": "20-knowledge/ai/models/",
+    "ai_concepts": "20-knowledge/ai/concepts/",
+    "ai_tools": "20-knowledge/ai/tools/",
+    "tech_platforms": "20-knowledge/tech/",
+    "business_knowledge": "20-knowledge/business/",
+    "general_concepts": "20-knowledge/concepts/",
+    "active_projects": "30-projects/",
+    "bookmarks": "40-library/bookmarks/",
+    "books": "40-library/books/",
+    "movies": "40-library/movies/",
+    "agent_rules": "50-system/AGENTS/",
+    "session_artifacts": "50-system/conversations/",
+    "scripts": "50-system/scripts/",
+    "runtime_state": "50-system/state/",
+    "operation_logs": "50-system/logs/",
+    "mocs": "12-mocs/",
+    "templates": "_meta/templates/",
+    "cold_storage": "90-archive/",
+    "media_assets": "_assets/",
+    "agent_skills": "50-system/skills/",
+    "vault_docs": "_meta/docs/"
+  },
+  "layers": {
+    "0_archive": "90-archive/",
+    "1_reference": "40-library/",
+    "2_knowledge": "20-knowledge/",
+    "3_working": "10-notes/",
+    "4_conversations": "50-system/conversations/",
+    "mocs": "12-mocs/"
+  },
+  "agent_rules": {
+    "draft_to_inbox_first": true,
+    "tag_agent_review": "#agent-review",
+    "require_frontmatter": true,
+    "auto_link_to_mocs": true,
+    "route_unknown_to_inbox": true,
+    "forbidden": "Never create new top-level directories. Route to nearest canonical branch. If no fit, use 00-inbox/ with #agent-review."
+  }
+}

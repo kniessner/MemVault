@@ -1,0 +1,10 @@
+{
+  "ai_model": "anthropic/claude-3-5-sonnet-20241022",
+  "ai_api_key": "your_api_key_here",
+  "base_dir": "",
+  "screenshot_quality": 80,
+  "max_content_length": 10000,
+  "max_summary_length": 2000,
+  "retry_attempts": 3,
+  "timeout": 30
+}
