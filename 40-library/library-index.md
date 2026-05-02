@@ -1,9 +1,11 @@
 ---
-title: "Library Index"
+title: Library Index
 description: "Index of all reference material: bookmarks, books, movies"
 created: 2026-01-01
 tags:
   - type/index
+cssclasses:
+  - dashboard
 ---
 
 ## Bookmarks
@@ -27,4 +29,4 @@ tags:
 | _(add movies here)_ | | |
 | _(use one file per movie in `40-library/movies/`)_ | | |
 
-See also: [[20-knowledge/ai/index|AI Index]]
+See also: [[20-knowledge/ai/ai-index|AI Index]]

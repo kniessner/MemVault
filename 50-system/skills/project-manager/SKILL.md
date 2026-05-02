@@ -10,7 +10,7 @@ argument-hint: [action] [project-name]
 Create and manage all your development projects within the vault.
 
 ## Default Workspace:
-**All projects live in:** `$VAULT_ROOT/30-projects-active/`
+**All projects live in:** `$VAULT_ROOT/30-projects/`
 
 ## Arguments:
 - `$0` - Action (new, list, open, info, init)
@@ -23,7 +23,7 @@ Create and manage all your development projects within the vault.
 **Interactive project creation:**
 ```bash
 VAULT_ROOT="${VAULT_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
-PROJECTS_DIR="$VAULT_ROOT/30-projects-active"
+PROJECTS_DIR="$VAULT_ROOT/30-projects"
 PROJECT_NAME="$1"
 CATEGORY="${2:-2026-experiments}"
 PROJECT_PATH="$PROJECTS_DIR/$CATEGORY/$PROJECT_NAME"

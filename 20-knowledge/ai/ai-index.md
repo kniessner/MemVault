@@ -33,7 +33,7 @@ ai/
 ├── tools/          # AI-Tools & Frameworks
 ├── concepts/       # Patterns, Memory, Prompting, Architektur
 ├── alternatives-*.md  # Vergleiche
-└── index.md        # Diese Übersicht
+└── ai-index.md     # This overview
 ```
 
 **Nutzen:**
@@ -46,7 +46,7 @@ ai/
 
 ## 🧠 Modelle
 
-→ **[[models/index|All Models & Comparison Matrix]]**
+→ **[[models/models-index|All Models & Comparison Matrix]]**
 
 | Modell | Provider | Kontext | Best For |
 |--------|----------|---------|----------|
@@ -59,7 +59,7 @@ ai/
 
 ## 🌐 Provider
 
-→ **[[providers/index|All 10 Providers & Comparison Matrix]]**
+→ **[[providers/providers-index|All 10 Providers & Comparison Matrix]]**
 
 | Provider | Besonderheit | Modelle |
 |----------|--------------|---------|
@@ -79,7 +79,7 @@ ai/
 
 ## 🛠️ Tools
 
-→ **[[tools/index|All Tools & Frameworks]]**
+→ **[[tools/tools-index|All Tools & Frameworks]]**
 
 ### Coding Agents
 
@@ -115,7 +115,7 @@ ai/
 
 ## 💡 Konzepte
 
-→ **[[concepts/index|All Concepts & Patterns]]**
+→ **[[concepts/concepts-index|All Concepts & Patterns]]**
 
 | Konzept | Category | Beschreibung |
 |---------|----------|--------------|
@@ -132,9 +132,9 @@ ai/
 
 ## 📚 Ressourcen
 
-- **Bookmarks:** `[[40-library/bookmarks/index|Archivierte AI-Webseiten]]`
-- **Papers:** `[[40-library/papers/index|Research Papers]]`
-- **News:** `[[10-notes/20-ideas/ai-news|AI News & Updates]]`
+- **Bookmarks:** [[40-library/bookmarks/_example-bookmark|Archivierte AI-Webseiten]]
+- **Papers:** `40-library/papers/`
+- **News:** [[10-notes/20-ideas/_example-idea|AI News & Updates]]
 
 ---
 

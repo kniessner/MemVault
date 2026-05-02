@@ -12,7 +12,7 @@ source: ""
 ## Classify
 
 - [ ] Idea → `10-notes/20-ideas/`
-- [ ] Project → `30-projects/`
+- [ ] Project → `30-projects-active/`
 - [ ] Knowledge → `20-knowledge/`
 - [ ] Bookmark → `40-library/bookmarks/`
 - [ ] Trash

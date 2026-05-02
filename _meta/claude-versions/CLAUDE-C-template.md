@@ -31,7 +31,7 @@ This vault follows the **LLM Wiki pattern**: raw sources feed into an AI-maintai
 | AI tools | `20-knowledge/ai/tools/` |
 | Tech platforms | `20-knowledge/tech/` |
 | Business knowledge | `20-knowledge/business/` |
-| Active project docs | `30-projects/YYYY-name/` |
+| Active project docs | `30-projects-active/YYYY-name/` |
 | Bookmarks / saved pages | `40-library/bookmarks/` |
 | Books, papers, courses | `40-library/` |
 | Session artifacts | `50-system/conversations/` |
@@ -47,7 +47,7 @@ This vault follows the **LLM Wiki pattern**: raw sources feed into an AI-maintai
 2. **Route** — determine destination using the table above
 3. **Synthesize** — create or update wiki pages
 4. **Connect** — add `[[wikilinks]]` to related pages
-5. **Index** — update the relevant `index.md`
+5. **Index** — update the relevant `*-index.md`
 
 New agent-created content → `00-inbox/` with `#agent-review` first.
 
@@ -55,7 +55,7 @@ New agent-created content → `00-inbox/` with `#agent-review` first.
 
 ## Query Workflow
 
-1. **Search** — read relevant `index.md` files first
+1. **Search** — read relevant `*-index.md` files first
 2. **Drill** — follow wikilinks to specific pages
 3. **Synthesize** — combine information from multiple sources
 4. **Cite** — reference specific files

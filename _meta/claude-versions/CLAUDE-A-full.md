@@ -28,7 +28,7 @@ This vault follows the **LLM Wiki pattern**: Raw sources feed into an AI-maintai
 
 ### 2. Knowledge Graph (AI-Maintained)
 - `20-knowledge/` — Curated evergreen knowledge (AI, tech, business, concepts)
-- `30-projects/` — Living project docs with specs, decisions, logs
+- `30-projects-active/` — Living project docs with specs, decisions, logs
 - `12-mocs/` — Maps of Content connecting domains
 - `_meta/` — System patterns, templates, schemas
 
@@ -60,7 +60,7 @@ User pastes article about new AI model
 → Extract: provider, model name, specs, pricing
 → Update: 20-knowledge/ai/providers/<provider>.md
 → Create: 20-knowledge/ai/models/<model>.md
-→ Update: 20-knowledge/ai/index.md with new entry
+→ Update: 20-knowledge/ai/ai-index.md with new entry
 → Link: Related models, competing providers
 → Log: Ingest entry with timestamp
 ```
@@ -107,7 +107,7 @@ Periodically (or on request), health-check the vault:
 | AI concepts | `20-knowledge/ai/concepts/` | RAG, agents, prompting |
 | Tech platforms | `20-knowledge/tech/` | Supabase, Render |
 | Business knowledge | `20-knowledge/business/` | Pricing models, ops |
-| Active projects | `30-projects/YYYY-name/` | Code, specs, decisions |
+| Active projects | `30-projects-active/YYYY-name/` | Code, specs, decisions |
 | Daily notes | `10-notes/10-daily/` | YYYY-MM-DD.md |
 | Ideas | `10-notes/20-ideas/` | Brainstorms, concepts |
 | Meeting notes | `10-notes/30-meetings/` | Discussions, decisions |
@@ -190,9 +190,9 @@ related:
 ## Special Files
 
 ### Indices (Update After Ingest)
-- `20-knowledge/ai/index.md` — AI providers, models, tools
-- `30-projects/index.md` — Active projects
-- `40-library/index.md` — Books, movies, bookmarks
+- `20-knowledge/ai/ai-index.md` — AI providers, models, tools
+- `30-projects-active/projects-index.md` — Active projects
+- `40-library/library-index.md` — Books, movies, bookmarks
 
 ### Logs (Append-Only)
 - `10-notes/10-daily/YYYY-MM-DD.md` — Daily activity
@@ -201,7 +201,7 @@ related:
 ### System Files
 - `AGENTS.md` — Agent workspace rules and session checklist
 - `SOUL.md` — Agent identity and values
-- `VAULT-ARCHITECTURE.md` — Technical conventions
+- `vault-architecture.md` — Technical conventions
 - `CLAUDE.md` — This document
 - `VAULT_MANIFEST.json` — Canonical routing (ground truth)
 

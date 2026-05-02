@@ -75,8 +75,8 @@ ClaudeVault/
 ├── 00-cap/               ← Our capture (matches their Inbox)
 ├── 10-life/              ← Areas (personal, health, etc.)
 ├── 20-knowledge/         ← Resources (books, papers, tech)
-├── 30-projects/          ← Active projects
-├── 30-projects-active/   ← Currently working
+├── 30-projects-active/  ← Active projects
+├── 30-projects/   ← Currently working
 ├── 40-library/           ← Movies, books, media
 └── 50-system/            ← Our addition (AI configs)
 ```

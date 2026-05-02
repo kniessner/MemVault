@@ -38,5 +38,5 @@ tags:
 
 ## See Also
 
-- [[20-knowledge/ai/index|AI Knowledge Index]]
-- [[30-projects/index|Active Projects]]
+- [[20-knowledge/ai/ai-index|AI Knowledge Index]]
+- [[30-projects/projects-index|Active Projects]]

@@ -23,7 +23,7 @@ Use it when the task involves:
 Before writing anything, follow the vault data architecture:
 - daily capture: `10-notes/10-daily/`
 - reusable knowledge: `20-knowledge/`
-- active project material: `30-projects-active/<project>/`
+- active project material: `30-projects/<project>/`
 - library collections: `40-library/`
 - system state, logs, scripts, agent rules, skills: `50-system/`
 - templates: `_meta/templates/`
@@ -316,7 +316,7 @@ obsidian create path="10-notes/20-ideas/example.md" content="# Example"
 Or from template:
 
 ```bash
-obsidian create path="30-projects-active/2026-example/README.md" template="project-template" open
+obsidian create path="30-projects/2026-example/README.md" template="project-template" open
 ```
 
 ### Read or append

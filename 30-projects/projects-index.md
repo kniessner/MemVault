@@ -1,9 +1,11 @@
 ---
-title: "Active Projects"
-description: "Dashboard of all active projects"
+title: Active Projects
+description: Dashboard of all active projects
 created: 2026-01-01
 tags:
   - type/index
+cssclasses:
+  - dashboard
 ---
 
 ## Projects

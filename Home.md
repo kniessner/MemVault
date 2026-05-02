@@ -1,6 +1,8 @@
 ---
 cssclasses:
   - dashboard
+  - home
+  - index
 tags:
   - dashboard
   - home
@@ -88,7 +90,7 @@ for (const f of _pFiles) {
   if (f.stat.mtime > _pDirs[dir].mtime) _pDirs[dir].mtime = f.stat.mtime;
   const rel = f.path.replace(`30-projects-active/${dir}/`, "");
   if (f.name === "README.md" && !rel.includes("/")) _pDirs[dir].entry = f.path;
-  else if (f.name === "index.md" && !rel.includes("/") && !_pDirs[dir].entry) _pDirs[dir].entry = f.path;
+  else if (f.name.endsWith("-index.md") && !rel.includes("/") && !_pDirs[dir].entry) _pDirs[dir].entry = f.path;
   else if (!rel.includes("/") && !_pDirs[dir].entry) _pDirs[dir].entry = f.path;
 }
 const projects = Object.values(_pDirs).sort((a,b) => b.mtime - a.mtime);
@@ -128,7 +130,7 @@ el(hR, "div", { text: `${mdC} notes · ${allFiles.length} files · ${skC} skills
 const ACTIONS = [
   { icon: "📝", label: "New Note",     href: "00-inbox/untitled" },
   { icon: "📅", label: "Today",        href: `10-notes/10-daily/${todayStr}` },
-  { icon: "📁", label: "Projects",     href: "30-projects-active/index" },
+  { icon: "📁", label: "Projects",     href: "30-projects-active/projects-index" },
   { icon: "🛠",  label: "Skills",       href: "50-system/skills" },
   { icon: "📚", label: "Knowledge",    href: "20-knowledge/README" },
   { icon: "🗄",  label: "Bookmarks",   href: "40-library/bookmarks" },
@@ -503,7 +505,7 @@ for (const p of projects) {
   const pCard = div(pGrid, `background:var(--background-primary);border-radius:8px;padding:11px 12px;border-left:3px solid ${accentColor};`);
   const href = p.entry ? p.entry.replace(/\.md$/, "") : `30-projects-active/${p.dir}`;
   lnk(pCard, p.dir.replace(/^\d{4}-/, ""), href, "font-weight:600;font-size:0.86em;display:block;margin-bottom:5px;");
-  const contentFiles = p.files.filter(f => !["index.md","README.md","Project Dashboard.md"].includes(f.name));
+  const contentFiles = p.files.filter(f => !f.name.endsWith("-index.md") && !["README.md","Project Dashboard.md"].includes(f.name));
   const meta = div(pCard, "display:flex;justify-content:space-between;opacity:0.4;font-size:0.74em;");
   el(meta, "span", { text: `${contentFiles.length}f` });
   el(meta, "span", { text: age === 0 ? "today" : age + "d" });
@@ -637,7 +639,7 @@ const kbGrid = div(kbWrap, "display:grid;grid-template-columns:1fr 1fr;gap:8px;"
 for (const folder of KB_FOLDERS) {
   const files = allFiles.filter(f =>
     f.path.startsWith(`20-knowledge/${folder}/`) &&
-    f.extension === "md" && !["README.md","index.md"].includes(f.name)
+    f.extension === "md" && !["README.md"].includes(f.name) && !f.name.endsWith("-index.md")
   );
   if (!files.length) continue;
   const kCard = div(kbGrid, S.chip);

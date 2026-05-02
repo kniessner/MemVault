@@ -1,0 +1,346 @@
+/* ═══════════════════════════════════════════
+   ClaudeVault Dashboard — Optimized for Bento Grid
+   ═══════════════════════════════════════════ */
+.inline-title {
+  text-transform: uppercase;
+}
+
+.dashboard h1,
+.inline-title {
+  font-size: 40px;
+  color: var(--color-yellow);
+  font-family: "Inter";
+  /* font-weight: 200;
+    letter-spacing: 0.2rem; */
+}
+
+.workspace-split.mod-root .view-content {
+  background-color: #24262a;
+}
+
+.workspace-tabs .workspace-leaf {
+  background-color: hsl(220deg 5.18% 11.32%);
+}
+
+/* .is-focused .workspace-leaf.mod-active .view-header {
+    background-color: hsl(0deg 3.54% 10.16%);
+} */
+.workspace-split.mod-left-split>.workspace-leaf-resize-handle,
+.workspace-split.mod-right-split>.workspace-leaf-resize-handle {
+  border-color: transparent;
+}
+
+.workspace-tab-header-container {
+  display: flex;
+  background-color: #1b1919;
+  border: none;
+  position: relative;
+}
+
+.dashboard .markdown-preview-sizer>div {
+  max-width: none !important;
+  width: 100% !important;
+  padding: 0 40px !important;
+}
+
+.workspace-tabs .workspace-leaf {
+  background-color: hsl(0deg 1.8% 12.75%);
+}
+
+/* ── Full-width layout ── */
+.dashboard .markdown-preview-view {
+  max-width: 100% !important;
+  padding: 16px 24px;
+}
+
+/* ── Hide the markdown H1 (rendered inside DataviewJS instead) ── */
+.dashboard .markdown-preview-view h1 {
+  display: none;
+}
+
+/* ── Hide stray HR dividers (not needed in single-block layout) ── */
+.dashboard hr {
+  display: none;
+}
+
+/* ── Internal links ── */
+.dashboard .internal-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.dashboard .internal-link:hover {
+  color: var(--interactive-accent);
+  text-decoration: none;
+}
+
+/* ── Card hover brightness ── */
+.dashboard .dataview div[style*="background:var(--background-secondary)"]>div:hover,
+.dashboard .dataview div[style*="background:var(--background-primary)"]:hover {
+  filter: brightness(1.07);
+  transition: filter 0.12s ease;
+}
+
+/* ── Smooth transition on all inner cards ── */
+.dashboard .dataview div[style*="border-radius:8px"],
+.dashboard .dataview div[style*="border-radius:10px"],
+.dashboard .dataview div[style*="border-radius:12px"] {
+  transition: filter 0.12s ease;
+}
+
+/* ── Task list items (DataviewJS rendered) ── */
+.dashboard .task-list-item {
+  padding: 3px 0;
+  font-size: 0.88em;
+}
+
+.dashboard .task-list-item-checkbox {
+  margin-right: 8px;
+}
+
+/* ── Checkbox styling ── */
+.dashboard input[type="checkbox"] {
+  accent-color: var(--interactive-accent);
+  cursor: pointer;
+}
+
+/* ── Accent links on hover ── */
+.dashboard a.internal-link:hover {
+  color: var(--interactive-accent) !important;
+}
+
+/* ── Bookmark / domain chips ── */
+.dashboard a[style*="border-radius:14px"]:hover {
+  background: var(--interactive-accent) !important;
+  color: var(--text-on-accent) !important;
+  transition: all 0.12s ease;
+}
+
+/* ── Quick action cells ── */
+.dashboard div[style*="grid-template-columns:repeat(8"]>div:hover {
+  background: var(--interactive-accent-hover,
+      var(--interactive-accent)) !important;
+  filter: brightness(1.1);
+  transition: filter 0.12s ease;
+}
+
+/* ── Project cards — accent border glow on hover ── */
+.dashboard div[style*="border-left:3px solid"]:hover {
+  filter: brightness(1.08);
+  transition: filter 0.12s ease;
+}
+
+/* ── Scrollbar ── */
+.dashboard .markdown-preview-view::-webkit-scrollbar {
+  width: 4px;
+}
+
+.dashboard .markdown-preview-view::-webkit-scrollbar-thumb {
+  background: var(--background-modifier-border);
+  border-radius: 2px;
+}
+
+.dashboard .markdown-preview-view::-webkit-scrollbar-thumb:hover {
+  background: var(--interactive-accent);
+}
+
+/* ═══════════════════════════════════════════
+   MOBILE RESPONSIVE STYLES
+   ═══════════════════════════════════════════ */
+
+/* ── Tablets (max-width: 1024px) ── */
+@media (max-width: 1024px) {
+  .dashboard .markdown-preview-view {
+    padding: 12px 16px;
+  }
+
+  /* Quick actions: 4 columns instead of 8 */
+  .dashboard div[style*="grid-template-columns:repeat(8"] {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+
+  /* Main grid: reduce ratio */
+  .dashboard div[style*="grid-template-columns:minmax(0,2fr) minmax(0,1fr)"] {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) !important;
+  }
+
+  /* Activity grid: larger min cards */
+  .dashboard div[style*="grid-template-columns:repeat(auto-fill,minmax(220px"] {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+  }
+}
+
+/* ── Mobile phones (max-width: 768px) ── */
+@media (max-width: 768px) {
+  .dashboard .markdown-preview-view {
+    padding: 8px 12px;
+  }
+
+  /* H1 smaller on mobile */
+  .dashboard h1 {
+    font-size: 28px;
+  }
+
+  /* Quick actions: 2 columns */
+  .dashboard div[style*="grid-template-columns:repeat(8"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 4px !important;
+  }
+
+  .dashboard div[style*="grid-template-columns:repeat(8"]>div {
+    padding: 8px 4px !important;
+  }
+
+  /* Main grid: single column stack */
+  .dashboard div[style*="grid-template-columns:minmax(0,2fr) minmax(0,1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Project cards: smaller min width */
+  .dashboard div[style*="grid-template-columns:repeat(auto-fill,minmax(150px"] {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)) !important;
+  }
+
+  /* Knowledge/skills grid: single column */
+  .dashboard div[style*="display:grid;grid-template-columns:1fr 1fr;gap:8px"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Mid and bottom grids: single column */
+  .dashboard div[style*="display:grid;grid-template-columns:1fr 1fr;gap:12px"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Activity grid: 2 columns */
+  .dashboard div[style*="grid-template-columns:repeat(auto-fill,minmax(220px"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Cards: less padding */
+  .dashboard .dataview div[style*="padding:16px 18px"] {
+    padding: 12px !important;
+  }
+
+  .dashboard .dataview div[style*="padding:12px 14px"] {
+    padding: 10px 12px !important;
+  }
+
+  /* Row items: compact */
+  .dashboard div[style*="display:flex;align-items:center;gap:8px;padding:5px 8px"] {
+    padding: 4px 6px !important;
+    font-size: 0.8em !important;
+  }
+
+  /* Service cards: smaller text */
+  .dashboard div[style*="background:var(--background-primary);border-radius:8px;padding:10px 12px"] {
+    padding: 8px 10px !important;
+  }
+
+  /* Labels: smaller */
+  .dashboard span[style*="font-size:0.68em"] {
+    font-size: 0.62em !important;
+  }
+
+  /* Reduce gaps */
+  .dashboard div[style*="gap:12px"] {
+    gap: 8px !important;
+  }
+
+  .dashboard div[style*="gap:8px"] {
+    gap: 6px !important;
+  }
+
+  .dashboard div[style*="gap:4px"] {
+    gap: 3px !important;
+  }
+}
+
+/* ── Small phones (max-width: 480px) ── */
+@media (max-width: 480px) {
+  .dashboard .markdown-preview-view {
+    padding: 6px 8px;
+  }
+
+  /* H1 even smaller */
+  .dashboard h1 {
+    font-size: 22px;
+  }
+
+  /* Quick actions: single column (optional, or keep 2) */
+  .dashboard div[style*="grid-template-columns:repeat(8"]>div {
+    padding: 6px 4px !important;
+  }
+
+  .dashboard div[style*="grid-template-columns:repeat(8"]>div>div:first-child {
+    font-size: 1em !important;
+  }
+
+  .dashboard div[style*="grid-template-columns:repeat(8"]>div>a {
+    font-size: 0.7em !important;
+  }
+
+  /* Project cards: stack */
+  .dashboard div[style*="grid-template-columns:repeat(auto-fill,minmax(120px"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Activity grid: single column */
+  .dashboard div[style*="grid-template-columns:repeat(2, 1fr)"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Library grid: single column */
+  .dashboard div[style*="display:grid;grid-template-columns:1fr 1fr;gap:4px"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Service grid: single column */
+  .dashboard div[style*="display:grid;grid-template-columns:1fr 1fr;gap:4px"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Compact chips */
+  .dashboard div[style*="padding:2px 8px"] {
+    padding: 2px 6px !important;
+    font-size: 0.7em !important;
+  }
+
+  /* Ollama model chips: horizontal scroll */
+  .dashboard div[style*="display:flex;flex-wrap:wrap;gap:3px"] {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+
+  /* Hide some metadata to save space */
+  .dashboard span[style*="margin-left:auto;opacity:0.38"] {
+    font-size: 0.65em !important;
+  }
+
+  /* Task badges smaller */
+  .dashboard span[style*="margin-left:auto;opacity:0.38;font-size:0.76em"] {
+    font-size: 0.65em !important;
+  }
+}
+
+/* ── Obsidian Mobile App Specific ── */
+.is-mobile .dashboard .markdown-preview-view {
+  padding: 8px 10px;
+}
+
+.is-mobile .dashboard div[style*="grid-template-columns:repeat(8"] {
+  grid-template-columns: repeat(2, 1fr) !important;
+}
+
+.is-mobile .dashboard div[style*="grid-template-columns:minmax(0,2fr) minmax(0,1fr)"] {
+  grid-template-columns: 1fr !important;
+}
+
+.is-mobile .dashboard div[style*="display:grid;grid-template-columns:1fr 1fr;gap:12px"] {
+  grid-template-columns: 1fr !important;
+}
+
+.is-mobile .dashboard div[style*="display:grid;grid-template-columns:1fr 1fr;gap:8px"] {
+  grid-template-columns: 1fr !important;
+}

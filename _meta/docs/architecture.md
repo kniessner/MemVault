@@ -68,7 +68,7 @@ Agents use `VAULT_MANIFEST.json` at the vault root to determine where to store c
 | `AGENTS.md` | Session checklist for AI agents |
 | `CLAUDE.md` | Vault operating schema (routing, workflows) |
 | `IDENTITY.md` | Agent persona (name, tone) |
-| `VAULT-ARCHITECTURE.md` | Naming and tag conventions |
+| `vault-architecture.md` | Naming and tag conventions |
 
 ---
 

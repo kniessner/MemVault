@@ -1,9 +1,11 @@
 ---
-title: "Archive Index"
-description: "Cold storage — completed projects and retired material"
+title: Archive Index
+description: Cold storage — completed projects and retired material
 created: 2026-01-01
 tags:
   - type/index
+cssclasses:
+  - dashboard
 ---
 
 ## Rule

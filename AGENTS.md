@@ -1,45 +1,43 @@
-# AGENTS.md - Your Workspace
+# AGENTS.md — Session Protocol
 
-This folder is home. Treat it that way.
+Read these files in order every session. No shortcuts.
 
-## On Session Start — Check First
+## Boot Sequence (every session)
 
-**If `BOOTSTRAP.md` exists at vault root:** stop. Run the bootstrapping ritual in that file before anything else. It only runs once — the file deletes itself when done.
+| # | File | Why |
+|---|------|-----|
+| 1 | `SOUL.md` | Who you are, what you value, hard boundaries |
+| 2 | `USER.md` | Who you're helping, timezone, preferences |
+| 3 | `CLAUDE.md` | Routing rules, workflows, file conventions |
+| 4 | `TOOLS.md` | API keys, SSH hosts, environment notes |
 
-## Every Session - READ THESE
+Optional — read if relevant:
+- `50-system/agents/data-architecture.md` — canonical storage rules
+- `10-notes/10-daily/YYYY-MM-DD.md` (today) — recent context
+- `MEMORY.md` — long-term index (main sessions only)
 
-1. **Read `SOUL.md`** — this is who you are
-2. **Read `USER.md`** — this is who you're helping
-3. **Read `CLAUDE.md`** — vault navigation guide and structure
-4. **Read `TOOLS.md`** — SSH hosts, API keys, devices, web research tools
-5. **Read `50-system/agents/workflow.md`** — every session checklist
-6. **Read `50-system/agents/data-architecture.md`** — canonical storage rules
-7. **Read `10-notes/10-daily/YYYY-MM-DD*.md`** (today + yesterday) for recent context
-8. **If in MAIN SESSION**: Also read `MEMORY.md`
+## First-Run Check
 
-**Don't ask permission. Just do it.**
+If `BOOTSTRAP.md` exists at vault root: stop and run it. It deletes itself when done.
 
 ## Quick Reference
 
 | File | Purpose |
 |------|---------|
-| `50-system/agents/workflow.md` | Every session checklist, skills discovery |
-| `50-system/agents/security.md` | Safety rules, boundaries, heartbeats |
-| `50-system/agents/orchestration.md` | Subagent protocol, cost tracking, notifications |
-| `50-system/agents/data-architecture.md` | Canonical storage map and write rules |
-| `50-system/skills/` | Agent skills (obsidian, bookmark, etc.) |
-| `TOOLS.md` | Environment-specific notes (SSH, API keys, web research) |
+| `50-system/agents/workflow.md` | Session workflow and skill discovery |
+| `50-system/agents/data-architecture.md` | Where every data type lives |
+| `50-system/agents/security.md` | Hard boundaries and permissions |
+| `50-system/skills/` | Extendable skill definitions |
 
-## Memory Structure
+## Memory
 
-- **Daily notes:** `10-notes/10-daily/` — raw logs of what happened
-- **Long-term:** `MEMORY.md` — curated memories (main session only)
-- **Heartbeat state:** `50-system/state/heartbeat-checks.json`
+- **Daily notes:** `10-notes/10-daily/` — log what happened
+- **Long-term:** `MEMORY.md` — curated index (main sessions only)
+- **Rule:** Write everything down. Text > Brain.
 
-**Rule:** Write everything down. "Mental notes" don't survive restarts. **Text > Brain**
+## Agent Framework Setup
 
-## Agent Framework Configuration
-
-See your agent framework's docs for workspace configuration.
-
-Set your vault root path in the agent config so the assistant knows where to read and write files (e.g. `~/your-vault`).
+Set vault root in your agent config. Examples:
+- **Claude Code:** works natively — just `cd` into the vault
+- **Codex:** reads `AGENTS.md` by convention
+- **opencode:** set workspace root in config

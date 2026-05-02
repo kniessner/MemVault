@@ -73,7 +73,7 @@ When searching within the vault, prefer these scoped searches:
 rg -n --glob '*.md' 'query' "$VAULT_ROOT/20-knowledge/"
 
 # Search project files
-rg -n --glob '*.md' 'query' "$VAULT_ROOT/30-projects-active/"
+rg -n --glob '*.md' 'query' "$VAULT_ROOT/30-projects/"
 
 # Search daily notes
 rg -n --glob '*.md' 'query' "$VAULT_ROOT/10-notes/"

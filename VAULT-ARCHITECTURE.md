@@ -52,7 +52,7 @@ MemVault/
 │   └── bookmarks/            # Archived web pages
 │
 ├── 50-system/                # System & configuration
-│   ├── AGENTS/               # Agent rules and checklists
+│   ├── agents/               # Agent rules and checklists
 │   ├── conversations/        # Session artifacts
 │   ├── logs/                 # Operation logs
 │   ├── scripts/              # Utility scripts
@@ -73,15 +73,8 @@ MemVault/
 │   ├── superpowers/          # Dev plans
 │   └── checklists/           # Process checklists
 │
-├── 50-system/                # System & configuration
-│   ├── AGENTS/               # Agent rules and checklists
-│   ├── conversations/        # Session artifacts
-│   ├── logs/                 # Operation logs
-│   ├── scripts/              # Utility scripts
-│   ├── skills/               # Agent skills
-│   └── state/                # Runtime state files
 ├── README.md                 # Entry point for humans
-└── VAULT-ARCHITECTURE.md     # This file
+└── vault-architecture.md     # This file
 ```
 
 ---
@@ -89,20 +82,43 @@ MemVault/
 ## Naming Conventions
 
 ### Files
+
+All markdown files use **kebab-case**. Three exceptions:
+
+| Type | Pattern | Examples |
+|---|---|---|
+| Identity files | `UPPERCASE.md` | `SOUL.md`, `USER.md`, `AGENTS.md`, `CLAUDE.md` |
+| Templates | `_template-{name}.md` | `_template-project.md`, `_template-daily-note.md` |
+| Examples | `_example-{name}.md` | `_example-daily.md`, `_example-bookmark.md` |
+| Everything else | `kebab-case.md` | `retrieval-augmented-generation.md`, `add-agent-framework.md` |
+
 ```
-YYYY-MM-DD-descriptive-slug.md     # Daily notes
+YYYY-MM-DD-descriptive-slug.md     # Daily notes (date-prefix required)
 project-name-status-note.md        # Project docs (kebab-case)
-Company-Name-Provider.md           # Knowledge base (Pascal-kebab)
+retrieval-augmented-generation.md  # Knowledge pages (kebab-case, descriptive)
+_template-project.md               # Templates (underscore prefix)
+_example-daily.md                   # Examples (underscore prefix)
+SOUL.md                            # Root identity files (UPPERCASE)
+vault-architecture.md              # Root documentation (kebab-case)
 README.md                          # Folder index (always UPPER)
-_template.md                       # Hidden templates (underscore prefix)
 ```
 
 ### Folders
+
+| Type | Pattern | Examples |
+|---|---|---|
+| Content | `NN-name/` | `10-notes/`, `20-knowledge/`, `30-projects-active/` |
+| Infrastructure | `_name/` | `_meta/`, `_assets/` |
+| Sub-folders | `kebab-case/` | `agents/`, `conversations/`, `skills/` |
+
 ```
-XX-category-name/                  # Numbered for sorting
+NN-category-name/                  # Numbered for sorting (00–90)
 YYYY-project-name/                 # Projects: year prefix
-_hide-me/                          # Hidden folders (underscore)
+_name/                             # Infrastructure prefix (underscore)
+kebab-case/                        # All sub-folders (lowercase, hyphens)
 ```
+
+**No ALL-CAPS folders.** Agent rules live in `50-system/agents/` (lowercase).
 
 ### Media Attachments
 ```

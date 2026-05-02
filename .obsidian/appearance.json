@@ -1,3 +1,7 @@
 {
-  "cssTheme": "Minimal"
+  "cssTheme": "Minimal",
+  "accentColor": "#00aaff",
+  "enabledCssSnippets": [
+    "dashboard"
+  ]
 }

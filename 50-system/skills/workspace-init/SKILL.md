@@ -18,7 +18,7 @@ This skill sets up environment variables and changes to the vault directory, mak
 
 ```bash
 export VAULT_ROOT="${VAULT_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
-export VAULT_PROJECTS="$VAULT_ROOT/30-projects-active"
+export VAULT_PROJECTS="$VAULT_ROOT/30-projects"
 export VAULT_SKILLS="$VAULT_ROOT/50-system/skills"
 export VAULT_LOGS="$VAULT_ROOT/50-system/logs"
 export VAULT_SESSIONS="$VAULT_LOGS/session-logs"
@@ -46,7 +46,7 @@ To make the vault your default workspace automatically, add this to your shell c
 ```bash
 # Vault Workspace
 export VAULT_ROOT="${VAULT_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
-export VAULT_PROJECTS="$VAULT_ROOT/30-projects-active"
+export VAULT_PROJECTS="$VAULT_ROOT/30-projects"
 export VAULT_SKILLS="$VAULT_ROOT/50-system/skills"
 export VAULT_LOGS="$VAULT_ROOT/50-system/logs"
 export VAULT_SESSIONS="$VAULT_LOGS/session-logs"
@@ -64,7 +64,7 @@ cd $VAULT_PROJECTS 2>/dev/null || true
 ```zsh
 # Vault Workspace
 export VAULT_ROOT="${VAULT_ROOT:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
-export VAULT_PROJECTS="$VAULT_ROOT/30-projects-active"
+export VAULT_PROJECTS="$VAULT_ROOT/30-projects"
 export VAULT_SKILLS="$VAULT_ROOT/50-system/skills"
 export VAULT_LOGS="$VAULT_ROOT/50-system/logs"
 export VAULT_SESSIONS="$VAULT_LOGS/session-logs"

@@ -37,7 +37,7 @@ When organizing files within the vault, always respect the vault structure:
 | Unknown files | `00-inbox/` with `#agent-review` |
 | Daily notes | `10-notes/10-daily/` |
 | Knowledge files | `20-knowledge/` according to domain |
-| Project files | `30-projects-active/YYYY-name/` |
+| Project files | `30-projects/YYYY-name/` |
 | Shared media | `_assets/` |
 
 Never create new top-level directories.
