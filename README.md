@@ -74,15 +74,19 @@ MemVault/
 │   └── concepts/             # Domain-agnostic concepts
 ├── 30-projects/       # Active project docs, specs, decisions
 ├── 40-library/               # Immutable sources — bookmarks, books, papers
+│   ├── articles/             # Archived articles and long-form reads
 │   ├── bookmarks/            # Archived web pages (domain-organized)
 │   ├── books/                # Book notes
+│   ├── code-references/      # Code repositories, architecture references
+│   ├── content/              # Content channels, creator indexes
 │   ├── movies/               # Film notes
-│   └── papers/               # Research papers
+│   ├── papers/               # Research papers
+│   └── people/               # People profiles and creator notes
 ├── 50-system/                # Agent infrastructure
 │   ├── agents/               # Operating rules, checklists, boundaries
 │   ├── conversations/        # Session artifacts (transient — distill within 48h)
 │   ├── logs/                 # Operation logs
-│   ├── scripts/              # Utility scripts
+│   ├── scripts/              # Utility scripts (vault-setup, vault_artifact, verify)
 │   ├── skills/               # Extensible agent skill definitions
 │   └── state/                # Runtime JSON state files
 ├── 90-archive/               # Completed projects, cold storage

@@ -1,0 +1,60 @@
+#!/bin/bash
+# =============================================================================
+# vault-setup - ClaudeVault Agent Integration Tool
+# =============================================================================
+#
+# Dieses Tool verknüpft AI-Agenten (Codex, Claude Code, OpenClaw) mit dem
+# ClaudeVault-Workspace. Skills und Configs werden zentral im Vault verwaltet.
+#
+# Verwendung:
+#   vault-setup              # Interaktiver Wizard
+#   vault-setup quick        # Schnelles Setup
+#   vault-setup status       # Status anzeigen
+#   vault-setup unlink       # Verknüpfungen entfernen
+#
+# =============================================================================
+
+set -e
+
+VAULT_ROOT="$HOME/ClaudeVault"
+SCRIPT_DIR="$VAULT_ROOT/50-system/scripts"
+PYTHON_SCRIPT="$SCRIPT_DIR/vault-setup.py"
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Helper functions
+log_info() {
+    echo -e "${BLUE}INFO${NC}: $1"
+}
+
+log_success() {
+    echo -e "${GREEN}✓${NC} $1"
+}
+
+log_warn() {
+    echo -e "${YELLOW}!${NC} $1"
+}
+
+log_error() {
+    echo -e "${RED}✗${NC} $1"
+}
+
+# Check Python
+if ! command -v python3 &> /dev/null; then
+    log_error "Python3 wird benötigt, aber ist nicht installiert."
+    exit 1
+fi
+
+# Ensure the Python script exists
+if [[ ! -f "$PYTHON_SCRIPT" ]]; then
+    log_error "Setup-Script nicht gefunden: $PYTHON_SCRIPT"
+    exit 1
+fi
+
+# Run the Python script with all arguments
+exec python3 "$PYTHON_SCRIPT" "$@"

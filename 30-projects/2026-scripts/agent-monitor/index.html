@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Monitor Dashboard</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --bg3: #21262d;
+    --bg4: #2d333b;
+    --fg: #c9d1d9;
+    --fg2: #8b949e;
+    --accent: #58a6ff;
+    --accent2: #79c0ff;
+    --green: #3fb950;
+    --red: #f85149;
+    --yellow: #d29922;
+    --orange: #e3b341;
+    --border: #30363d;
+    --radius: 10px;
+    --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  }
+  [data-theme="light"] {
+    --bg: #ffffff;
+    --bg2: #f6f8fa;
+    --bg3: #eaeef2;
+    --bg4: #d0d7de;
+    --fg: #24292f;
+    --fg2: #57606a;
+    --accent: #0969da;
+    --accent2: #54aeff;
+    --green: #1a7f37;
+    --red: #cf222e;
+    --yellow: #9a6700;
+    --orange: #bc4c00;
+    --border: #d0d7de;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.5;
+    transition: background 0.2s, color 0.2s;
+  }
+  header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header h1 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: -0.01em; }
+  header .meta { font-size: 0.82rem; color: var(--fg2); }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 999px;
+    font-weight: 600; letter-spacing: 0.02em;
+  }
+  .badge.ok { background: rgba(63,185,80,0.15); color: var(--green); }
+  [data-theme="light"] .badge.ok { background: rgba(26,127,55,0.1); color: var(--green); }
+  .badge.err { background: rgba(248,81,73,0.15); color: var(--red); }
+  [data-theme="light"] .badge.err { background: rgba(207,34,46,0.1); color: var(--red); }
+  .badge.warn { background: rgba(210,153,34,0.15); color: var(--yellow); }
+  [data-theme="light"] .badge.warn { background: rgba(154,103,0,0.1); color: var(--yellow); }
+  .badge.info { background: rgba(88,166,255,0.15); color: var(--accent); }
+  [data-theme="light"] .badge.info { background: rgba(9,105,218,0.1); color: var(--accent); }
+  .badge.unknown { background: var(--bg3); color: var(--fg2); }
+
+  main { max-width: 1440px; margin: 0 auto; padding: 1.25rem; display: grid; gap: 1.25rem; }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.9rem;
+  }
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .card .label { font-size: 0.72rem; color: var(--fg2); text-transform: uppercase; letter-spacing: 0.04em; }
+  .card .value { font-size: 1.5rem; font-weight: 700; }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.red { border-left: 3px solid var(--red); }
+  .card.blue { border-left: 3px solid var(--accent); }
+  .card.orange { border-left: 3px solid var(--orange); }
+  .card.yellow { border-left: 3px solid var(--yellow); }
+
+  .section {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .section-header {
+    padding: 0.8rem 1.1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg3);
+    flex-wrap: wrap; gap: 0.5rem;
+  }
+  .section-header h2 { margin: 0; font-size: 0.9rem; font-weight: 600; }
+  .section-header .count { font-size: 0.78rem; color: var(--fg2); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th, td { padding: 0.55rem 0.8rem; text-align: left; border-bottom: 1px solid var(--border); }
+  th { font-weight: 600; color: var(--fg2); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.04em; background: var(--bg2); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.03); }
+  [data-theme="light"] tr:hover td { background: rgba(0,0,0,0.03); }
+  .mono { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; font-size: 0.8rem; }
+  .link { color: var(--accent); text-decoration: none; }
+  .link:hover { text-decoration: underline; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 0.3rem; }
+  .status-dot.running { background: var(--green); box-shadow: 0 0 6px rgba(63,185,80,0.5); }
+  .status-dot.stopped { background: var(--red); }
+  .status-dot.unknown { background: var(--yellow); }
+
+  .health-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 0.2rem; }
+  .health-dot.online { background: var(--green); box-shadow: 0 0 4px rgba(63,185,80,0.4); }
+  .health-dot.offline { background: var(--red); }
+  .health-dot.unknown { background: var(--yellow); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.55rem;
+    border-radius: 6px; border: 1px solid var(--border); background: var(--bg3);
+    color: var(--fg); cursor: pointer; text-decoration: none;
+    transition: all 0.15s;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn:active { transform: translateY(1px); }
+  .btn.green { border-color: var(--green); color: var(--green); }
+  .btn.green:hover { background: rgba(63,185,80,0.1); }
+  .btn.red { border-color: var(--red); color: var(--red); }
+  .btn.red:hover { background: rgba(248,81,73,0.1); }
+  .btn.warn { border-color: var(--yellow); color: var(--yellow); }
+  .btn.warn:hover { background: rgba(210,153,34,0.1); }
+  .btn-group { display: inline-flex; gap: 0.3rem; flex-wrap: wrap; }
+
+  .log-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.76rem;
+    max-height: 160px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    color: var(--fg2);
+    line-height: 1.4;
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  @media (max-width: 900px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    table { font-size: 0.78rem; }
+    th, td { padding: 0.45rem 0.5rem; }
+  }
+
+  .search-bar {
+    display: flex; align-items: center; gap: 0.5rem;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.4rem 0.7rem;
+    max-width: 360px;
+  }
+  .search-bar input {
+    background: transparent; border: none; color: var(--fg); font-size: 0.85rem;
+    outline: none; width: 100%;
+  }
+  .search-bar input::placeholder { color: var(--fg2); }
+
+  .metric { display: flex; flex-direction: column; gap: 0.15rem; }
+  .metric .label { font-size: 0.75rem; color: var(--fg2); }
+  .metric .value { font-size: 0.95rem; font-weight: 600; }
+
+  .refresh-bar {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: 0.8rem; color: var(--fg2);
+  }
+  .spinner {
+    width: 14px; height: 14px; border: 2px solid var(--border);
+    border-top-color: var(--accent); border-radius: 50%;
+    animation: spin 1s linear infinite; display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .expand-btn {
+    background: none; border: 1px solid var(--border); color: var(--fg2);
+    border-radius: 6px; padding: 0.2rem 0.5rem; font-size: 0.72rem; cursor: pointer;
+  }
+  .expand-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .hidden-row { display: none; }
+  .hidden-row.open { display: table-row; }
+
+  th.sortable { cursor: pointer; user-select: none; position: relative; padding-right: 1.3rem; }
+  th.sortable::after {
+    content: "⇅"; position: absolute; right: 0.35rem; top: 50%; transform: translateY(-50%);
+    font-size: 0.65rem; color: var(--fg2); opacity: 0.4;
+  }
+  th.sortable.asc::after { content: "▲"; opacity: 1; color: var(--accent); }
+  th.sortable.desc::after { content: "▼"; opacity: 1; color: var(--accent); }
+  th.sortable:hover::after { opacity: 0.8; }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    z-index: 50; display: none; align-items: center; justify-content: center;
+    padding: 1rem;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    width: 100%; max-width: 900px; max-height: 80vh;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .modal-header {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg3);
+  }
+  .modal-header h3 { margin: 0; font-size: 0.95rem; }
+  .modal-body {
+    flex: 1; overflow-y: auto; padding: 0;
+  }
+  .modal-logs {
+    font-family: ui-monospace, monospace; font-size: 0.78rem;
+    line-height: 1.5; padding: 0.8rem;
+    white-space: pre-wrap; color: var(--fg2);
+    min-height: 200px;
+  }
+  .modal-close {
+    background: none; border: 1px solid var(--border); color: var(--fg2);
+    border-radius: 6px; padding: 0.25rem 0.6rem; cursor: pointer; font-size: 0.8rem;
+  }
+  .modal-close:hover { border-color: var(--red); color: var(--red); }
+
+  /* Charts */
+  .chart-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;
+  }
+  .chart-container {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem;
+  }
+  .chart-container h3 {
+    margin: 0 0 0.6rem; font-size: 0.85rem; color: var(--fg2);
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  canvas.chart { width: 100%; height: 160px; }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 1rem; right: 1rem;
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 8px; padding: 0.7rem 1rem;
+    font-size: 0.85rem; max-width: 400px;
+    z-index: 100; display: none; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .toast.show { display: block; animation: slideUp 0.25s ease; }
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .toast.ok { border-left: 3px solid var(--green); }
+  .toast.err { border-left: 3px solid var(--red); }
+
+  /* Theme toggle */
+  .theme-toggle {
+    background: var(--bg3); border: 1px solid var(--border); color: var(--fg);
+    border-radius: 6px; padding: 0.3rem 0.6rem; cursor: pointer; font-size: 0.85rem;
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>🤖 Agent Monitor Dashboard</h1>
+    <div class="meta" id="meta">Loading…</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <div class="search-bar">
+      <span>🔎</span>
+      <input id="global-filter" type="text" placeholder="Filter all tables…" autocomplete="off">
+    </div>
+    <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Toggle dark/light">🌙</button>
+    <div class="refresh-bar">
+      <div class="spinner" id="spinner"></div>
+      <span id="last-refresh">—</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- Summary Cards -->
+  <div class="summary-grid" id="summary">
+    <div class="card green"><div class="label">Running Agents</div><div class="value" id="sum-running">—</div></div>
+    <div class="card red"><div class="label">Stopped Agents</div><div class="value" id="sum-stopped">—</div></div>
+    <div class="card blue"><div class="label">Active Services</div><div class="value" id="sum-services">—</div></div>
+    <div class="card orange"><div class="label">Open Ports</div><div class="value" id="sum-ports">—</div></div>
+    <div class="card yellow"><div class="label">Docker Containers</div><div class="value" id="sum-docker">—</div></div>
+    <div class="card green"><div class="label">Active Tasks</div><div class="value" id="sum-tasks">—</div></div>
+    <div class="card blue"><div class="label">Online Endpoints</div><div class="value" id="sum-online">—</div></div>
+    <div class="card red"><div class="label">Offline Endpoints</div><div class="value" id="sum-offline">—</div></div>
+  </div>
+
+  <!-- Charts -->
+  <div class="chart-row">
+    <div class="chart-container">
+      <h3>Total CPU Usage (%)</h3>
+      <canvas id="chart-cpu" class="chart"></canvas>
+    </div>
+    <div class="chart-container">
+      <h3>Total RAM Usage (%)</h3>
+      <canvas id="chart-mem" class="chart"></canvas>
+    </div>
+  </div>
+
+  <!-- Agents Overview -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Installed Agents & Services</h2>
+      <span class="count" id="agents-count"></span>
+    </div>
+    <table id="agents-table">
+      <thead>
+        <tr>
+          <th class="sortable">Agent</th>
+          <th class="sortable">Status</th>
+          <th class="sortable">Health</th>
+          <th class="sortable">Version</th>
+          <th class="sortable">Model / Provider</th>
+          <th class="sortable">CPU</th>
+          <th class="sortable">RAM</th>
+          <th class="sortable">PIDs</th>
+          <th class="sortable">Port / URL</th>
+          <th class="sortable">Config</th>
+          <th class="sortable">Sessions</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <!-- Systemd Services -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Systemd Services</h2>
+        <span class="count" id="services-count"></span>
+      </div>
+      <table id="services-table">
+        <thead>
+          <tr><th class="sortable">Service</th><th class="sortable">State</th><th class="sortable">Sub</th><th class="sortable">PID</th><th class="sortable">Enabled</th><th>Actions</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- Cronjobs -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Cronjobs & Scheduled Tasks</h2>
+        <span class="count" id="cron-count"></span>
+      </div>
+      <table id="cron-table">
+        <thead>
+          <tr><th class="sortable">Source</th><th class="sortable">Schedule</th><th class="sortable">Command</th><th class="sortable">User</th><th class="sortable">Status</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- Network Listeners -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Network Listeners</h2>
+        <span class="count" id="listeners-count"></span>
+      </div>
+      <table id="listeners-table">
+        <thead>
+          <tr><th class="sortable">Port</th><th class="sortable">Address</th><th class="sortable">Process</th><th class="sortable">PID</th><th>Open</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- Docker Containers -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Docker Containers</h2>
+        <span class="count" id="docker-count"></span>
+      </div>
+      <table id="docker-table">
+        <thead>
+          <tr><th class="sortable">Name</th><th class="sortable">Image</th><th class="sortable">Ports</th><th class="sortable">Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Running Agent Tasks -->
+  <div class="section">
+    <div class="section-header">
+      <h2>Running Agent Tasks</h2>
+      <span class="count" id="tasks-count"></span>
+    </div>
+    <table id="tasks-table">
+      <thead>
+        <tr><th>Agent</th><th>Command</th><th>PID</th><th>CPU%</th><th>RAM%</th><th>Started</th><th>Action</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- System Info -->
+  <div class="section">
+    <div class="section-header"><h2>System Overview</h2></div>
+    <div style="padding:1rem 1.25rem; display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap:1rem;" id="system-grid"></div>
+  </div>
+</main>
+
+<!-- Log Modal -->
+<div class="modal-overlay" id="log-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="log-title">Logs</h3>
+      <div class="btn-group">
+        <button class="btn green" onclick="refreshModalLogs()">Refresh</button>
+        <button class="btn" onclick="autoTailToggle()" id="auto-tail-btn">Auto: OFF</button>
+        <button class="modal-close" onclick="closeModal()">✕ Close</button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-logs" id="log-content">Loading…</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = "/api/status";
+let expandedLogs = new Set();
+let filterText = "";
+let modalLogFile = "";
+let modalAutoTail = false;
+let autoTailInterval = null;
+
+/* ── Theme ── */
+function initTheme() {
+  const saved = localStorage.getItem("agent-monitor-theme");
+  if (saved) document.documentElement.setAttribute("data-theme", saved);
+  updateThemeIcon();
+}
+function toggleTheme() {
+  const current = document.documentElement.getAttribute("data-theme");
+  const next = current === "light" ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", next);
+  localStorage.setItem("agent-monitor-theme", next);
+  updateThemeIcon();
+}
+function updateThemeIcon() {
+  const t = document.documentElement.getAttribute("data-theme");
+  document.getElementById("theme-btn").textContent = t === "light" ? "☀️" : "🌙";
+}
+initTheme();
+
+/* ── Helpers ── */
+function fmtStatus(running) {
+  return running
+    ? `<span class="status-dot running"></span>Running`
+    : `<span class="status-dot stopped"></span>Stopped`;
+}
+function fmtHealth(h) {
+  if (!h || h.status === "unknown") return `<span class="badge unknown">—</span>`;
+  const cls = h.status === "online" ? "ok" : "err";
+  const lat = h.latency_ms ? ` ${h.latency_ms}ms` : "";
+  const code = h.code ? ` (${h.code})` : "";
+  return `<span class="badge ${cls}"><span class="health-dot ${h.status}"></span>${h.status}${lat}${code}</span>`;
+}
+function badgeClass(state) {
+  if (state === "active" || state === "running" || state === true) return "ok";
+  if (state === "failed" || state === false) return "err";
+  if (state === "activating" || state === "unknown") return "warn";
+  return "info";
+}
+function badge(text, cls) {
+  return `<span class="badge ${cls}">${text}</span>`;
+}
+function showToast(msg, ok=true) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.className = "toast show " + (ok ? "ok" : "err");
+  setTimeout(() => t.classList.remove("show"), 4000);
+}
+function openUrl(url) {
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+function matchesFilter(text) {
+  if (!filterText) return true;
+  return text.toLowerCase().includes(filterText.toLowerCase());
+}
+
+/* ── Actions ── */
+async function doAction(action, target) {
+  try {
+    const res = await fetch(`/api/action?action=${encodeURIComponent(action)}&target=${encodeURIComponent(target)}`);
+    const data = await res.json();
+    if (data.success) {
+      showToast(data.output || "Done", true);
+      if (action === "restart" || action === "stop" || action === "start" || action === "docker_restart" || action === "kill_pid") {
+        setTimeout(fetchData, 1500);
+      }
+    } else {
+      showToast(data.error || data.output || "Failed", false);
+    }
+    return data;
+  } catch (e) {
+    showToast("Network error: " + e.message, false);
+    return null;
+  }
+}
+
+/* ── Log Modal ── */
+function openLogModal(title, filePath) {
+  modalLogFile = filePath;
+  document.getElementById("log-title").textContent = title;
+  document.getElementById("log-modal").classList.add("show");
+  refreshModalLogs();
+}
+function closeModal() {
+  document.getElementById("log-modal").classList.remove("show");
+  modalAutoTail = false;
+  if (autoTailInterval) { clearInterval(autoTailInterval); autoTailInterval = null; }
+  updateAutoTailBtn();
+}
+async function refreshModalLogs() {
+  if (!modalLogFile) return;
+  const data = await doAction("tail_logs", modalLogFile);
+  const el = document.getElementById("log-content");
+  if (data && data.success) {
+    el.textContent = data.output || "(empty log)";
+    el.scrollTop = el.scrollHeight;
+  } else {
+    el.textContent = data?.error || "Could not read logs";
+  }
+}
+function autoTailToggle() {
+  modalAutoTail = !modalAutoTail;
+  updateAutoTailBtn();
+  if (modalAutoTail) {
+    refreshModalLogs();
+    autoTailInterval = setInterval(refreshModalLogs, 3000);
+  } else {
+    if (autoTailInterval) { clearInterval(autoTailInterval); autoTailInterval = null; }
+  }
+}
+function updateAutoTailBtn() {
+  document.getElementById("auto-tail-btn").textContent = modalAutoTail ? "Auto: ON" : "Auto: OFF";
+}
+
+/* ── Charts ── */
+function drawChart(canvasId, labels, data, color) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+
+  const w = rect.width, h = rect.height;
+  const pad = { top: 10, right: 10, bottom: 20, left: 30 };
+  const gw = w - pad.left - pad.right;
+  const gh = h - pad.top - pad.bottom;
+
+  ctx.clearRect(0, 0, w, h);
+
+  // Grid
+  ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue("--border").trim() || "#30363d";
+  ctx.lineWidth = 1;
+  ctx.globalAlpha = 0.3;
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.top + (gh / 4) * i;
+    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w - pad.right, y); ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+
+  if (!data.length) {
+    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--fg2").trim() || "#8b949e";
+    ctx.font = "12px ui-sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("Collecting data…", w / 2, h / 2);
+    return;
+  }
+
+  const maxVal = Math.max(...data, 1);
+  const stepX = gw / Math.max(data.length - 1, 1);
+
+  // Fill area
+  ctx.beginPath();
+  ctx.moveTo(pad.left, pad.top + gh);
+  data.forEach((v, i) => {
+    const x = pad.left + i * stepX;
+    const y = pad.top + gh - (v / maxVal) * gh;
+    ctx.lineTo(x, y);
+  });
+  ctx.lineTo(pad.left + (data.length - 1) * stepX, pad.top + gh);
+  ctx.closePath();
+  ctx.fillStyle = color + "18";
+  ctx.fill();
+
+  // Line
+  ctx.beginPath();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.lineJoin = "round";
+  data.forEach((v, i) => {
+    const x = pad.left + i * stepX;
+    const y = pad.top + gh - (v / maxVal) * gh;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  // Points
+  ctx.fillStyle = color;
+  data.forEach((v, i) => {
+    if (i % Math.max(1, Math.floor(data.length / 20)) !== 0) return;
+    const x = pad.left + i * stepX;
+    const y = pad.top + gh - (v / maxVal) * gh;
+    ctx.beginPath(); ctx.arc(x, y, 2.5, 0, Math.PI * 2); ctx.fill();
+  });
+
+  // Labels
+  ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--fg2").trim() || "#8b949e";
+  ctx.font = "10px ui-monospace";
+  ctx.textAlign = "center";
+  const labelStep = Math.max(1, Math.floor(labels.length / 6));
+  labels.forEach((lbl, i) => {
+    if (i % labelStep !== 0 && i !== labels.length - 1) return;
+    const x = pad.left + i * stepX;
+    ctx.fillText(lbl, x, h - 4);
+  });
+
+  // Y-axis labels
+  ctx.textAlign = "right";
+  for (let i = 0; i <= 4; i++) {
+    const val = Math.round((maxVal / 4) * (4 - i));
+    const y = pad.top + (gh / 4) * i;
+    ctx.fillText(String(val), pad.left - 4, y + 3);
+  }
+}
+
+/* ── Render ── */
+async function fetchData() {
+  const spinner = document.getElementById("spinner");
+  spinner.style.display = "inline-block";
+  try {
+    const res = await fetch(API, { cache: "no-store" });
+    const data = await res.json();
+    render(data);
+    document.getElementById("last-refresh").textContent = "Updated " + new Date().toLocaleTimeString();
+  } catch (e) {
+    document.getElementById("last-refresh").textContent = "Error: " + e.message;
+  } finally {
+    spinner.style.display = "none";
+  }
+}
+
+function render(data) {
+  window.lastData = data;
+  if (data.error) {
+    document.getElementById("meta").textContent = data.error;
+    return;
+  }
+  const sys = data.system || {};
+  document.getElementById("meta").textContent = `${sys.hostname || "—"} • ${sys.uptime || "—"} • ${sys.timestamp || ""}`;
+
+  const agents = data.agents || [];
+  const services = data.services || [];
+  const listeners = data.listeners || [];
+  const dockers = data.docker || [];
+  const tasks = data.tasks || [];
+  const cron = data.cronjobs || [];
+  const history = data.history || {};
+
+  // Summary
+  const running = agents.filter(a => a.running).length;
+  const stopped = agents.length - running;
+  const activeSvcs = services.filter(s => s.state === "active" || s.state === "running").length;
+  const online = agents.filter(a => a.health && a.health.status === "online").length;
+  const offline = agents.filter(a => a.health && a.health.status === "offline").length;
+  document.getElementById("sum-running").textContent = running;
+  document.getElementById("sum-stopped").textContent = stopped;
+  document.getElementById("sum-services").textContent = activeSvcs;
+  document.getElementById("sum-ports").textContent = listeners.length;
+  document.getElementById("sum-docker").textContent = dockers.length;
+  document.getElementById("sum-tasks").textContent = tasks.length;
+  document.getElementById("sum-online").textContent = online;
+  document.getElementById("sum-offline").textContent = offline;
+
+  // Charts
+  const ts = history.timestamps || [];
+  drawChart("chart-cpu", ts, history.total_cpu || [], "#58a6ff");
+  drawChart("chart-mem", ts, history.total_mem || [], "#3fb950");
+
+  // Agents
+  let agentsSorted = applySort("agents-table", agents);
+  const atbody = document.querySelector("#agents-table tbody");
+  atbody.innerHTML = "";
+  agentsSorted.forEach((a, idx) => {
+    const rowText = [a.display_name, a.version, a.model, a.provider, a.config_dir].join(" ");
+    if (!matchesFilter(rowText)) return;
+
+    const urlCell = a.url
+      ? `<a class="link" href="${a.url}" target="_blank">${a.port || "link"}</a>`
+      : (a.port || "—");
+    const pids = (a.pids || []).join(", ");
+    const model = [a.model, a.provider].filter(Boolean).join(" / ") || "—";
+    const sessions = (a.sessions || []).length ? `<span class="mono">${a.sessions.length}</span>` : "—";
+
+    // Actions
+    let actions = `<div class="btn-group">`;
+    if (a.url) {
+      actions += `<button class="btn green" onclick="openUrl('${a.url}')">Open ↗</button>`;
+    }
+    if (!a.running && a.name === "opencode") {
+      actions += `<button class="btn green" onclick="doAction('start_agent','opencode')">Start</button>`;
+    }
+    if (a.log_file) {
+      actions += `<button class="btn" onclick="openLogModal('${a.display_name} Logs','${a.log_file}')">Logs</button>`;
+    }
+    if (a.config_dir) {
+      actions += `<button class="btn" onclick="openUrl('file://${a.config_dir}')">Config</button>`;
+    }
+    if (a.running && a.name === "opencode") {
+      actions += `<button class="btn red" onclick="doAction('restart','opencode')">Restart</button>`;
+    }
+    actions += `</div>`;
+
+    atbody.innerHTML += `<tr>
+      <td><strong>${a.display_name}</strong></td>
+      <td>${fmtStatus(a.running)}</td>
+      <td>${fmtHealth(a.health)}</td>
+      <td class="mono">${a.version || "—"}</td>
+      <td>${model}</td>
+      <td class="mono">${a.cpu_percent ?? 0}%</td>
+      <td class="mono">${a.mem_percent ?? 0}%</td>
+      <td class="mono">${pids || "—"}</td>
+      <td>${urlCell}</td>
+      <td class="mono">${a.config_dir ? a.config_dir.replace("/home/", "~/") : "—"}</td>
+      <td>${sessions}</td>
+      <td>${actions}</td>
+    </tr>`;
+  });
+  document.getElementById("agents-count").textContent = `${agents.length} agents`;
+
+  // Services
+  let servicesSorted = applySort("services-table", services);
+  const stbody = document.querySelector("#services-table tbody");
+  stbody.innerHTML = "";
+  servicesSorted.forEach(s => {
+    const rowText = [s.name, s.state, s.sub_state].join(" ");
+    if (!matchesFilter(rowText)) return;
+    let actions = `<div class="btn-group">`;
+    actions += `<button class="btn green" onclick="doAction('restart','${s.name}')">Restart</button>`;
+    actions += `<button class="btn red" onclick="doAction('stop','${s.name}')">Stop</button>`;
+    actions += `<button class="btn warn" onclick="doAction('logs','${s.name}')">Logs</button>`;
+    actions += `</div>`;
+    stbody.innerHTML += `<tr>
+      <td>${s.name.replace(".service", "")}</td>
+      <td>${badge(s.state, badgeClass(s.state))}</td>
+      <td>${s.sub_state || "—"}</td>
+      <td class="mono">${s.pid || "—"}</td>
+      <td>${badge(s.enabled ? "enabled" : "disabled", s.enabled ? "ok" : "warn")}</td>
+      <td>${actions}</td>
+    </tr>`;
+  });
+  document.getElementById("services-count").textContent = `${services.length} services`;
+
+  // Cronjobs
+  let cronSorted = applySort("cron-table", cron);
+  const ctbody = document.querySelector("#cron-table tbody");
+  ctbody.innerHTML = "";
+  cronSorted.forEach(c => {
+    const rowText = [c.source, c.command, c.user].join(" ");
+    if (!matchesFilter(rowText)) return;
+    const status = c.enabled !== false ? badge("active", "ok") : badge("disabled", "err");
+    ctbody.innerHTML += `<tr>
+      <td class="mono">${c.source}</td>
+      <td class="mono">${c.schedule}</td>
+      <td title="${c.command}">${c.command.length > 60 ? c.command.slice(0,60)+"…" : c.command}</td>
+      <td>${c.user}</td>
+      <td>${status}</td>
+    </tr>`;
+  });
+  document.getElementById("cron-count").textContent = `${cron.length} jobs`;
+
+  // Listeners
+  let listenersSorted = applySort("listeners-table", listeners);
+  const ltbody = document.querySelector("#listeners-table tbody");
+  ltbody.innerHTML = "";
+  listenersSorted.forEach(l => {
+    const rowText = [String(l.port), l.local_address, l.process].join(" ");
+    if (!matchesFilter(rowText)) return;
+    let openBtn = "—";
+    if (l.port) {
+      const isLocal = l.local_address === "127.0.0.1" || l.local_address === "localhost" || l.local_address === "::1" || l.local_address === "*";
+      const host = isLocal ? "localhost" : (l.local_address === "0.0.0.0" || l.local_address === "*" ? window.location.hostname : l.local_address);
+      const proto = (l.port === 22000 || l.port === 8384) ? "http" : "http";
+      const url = `${proto}://${host}:${l.port}/`;
+      openBtn = `<button class="btn green" onclick="openUrl('${url}')">Open ↗</button>`;
+    }
+    ltbody.innerHTML += `<tr>
+      <td class="mono"><strong>${l.port}</strong></td>
+      <td class="mono">${l.local_address}</td>
+      <td>${l.process || "—"}</td>
+      <td class="mono">${l.pid || "—"}</td>
+      <td>${openBtn}</td>
+    </tr>`;
+  });
+  document.getElementById("listeners-count").textContent = `${listeners.length} listeners`;
+
+  // Docker
+  let dockersSorted = applySort("docker-table", dockers);
+  const dtbody = document.querySelector("#docker-table tbody");
+  dtbody.innerHTML = "";
+  dockersSorted.forEach(d => {
+    const rowText = [d.name, d.image, d.ports, d.status].join(" ");
+    if (!matchesFilter(rowText)) return;
+    let actions = `<div class="btn-group">`;
+    actions += `<button class="btn green" onclick="doAction('docker_restart','${d.name}')">Restart</button>`;
+    actions += `<button class="btn warn" onclick="doAction('docker_logs','${d.name}')">Logs</button>`;
+    actions += `</div>`;
+    dtbody.innerHTML += `<tr>
+      <td>${d.name}</td>
+      <td class="mono">${d.image}</td>
+      <td class="mono">${d.ports}</td>
+      <td>${badge(d.status, badgeClass(d.status))}</td>
+      <td>${actions}</td>
+    </tr>`;
+  });
+  document.getElementById("docker-count").textContent = `${dockers.length} containers`;
+
+  // Tasks
+  const ttbody = document.querySelector("#tasks-table tbody");
+  ttbody.innerHTML = "";
+  tasks.forEach(t => {
+    const rowText = [t.agent, t.command, String(t.pid)].join(" ");
+    if (!matchesFilter(rowText)) return;
+    const action = `<button class="btn red" onclick="doAction('kill_pid','${t.pid}')">Kill</button>`;
+    ttbody.innerHTML += `<tr>
+      <td>${t.agent}</td>
+      <td class="mono" title="${t.command}">${t.command.length > 70 ? t.command.slice(0,70)+"…" : t.command}</td>
+      <td class="mono">${t.pid}</td>
+      <td class="mono">${t.cpu}%</td>
+      <td class="mono">${t.mem}%</td>
+      <td>${t.start_time}</td>
+      <td>${action}</td>
+    </tr>`;
+  });
+  document.getElementById("tasks-count").textContent = `${tasks.length} tasks`;
+
+  // System info
+  const sgrid = document.getElementById("system-grid");
+  sgrid.innerHTML = "";
+  const metrics = [
+    { label: "Hostname", value: sys.hostname },
+    { label: "Uptime", value: sys.uptime },
+    { label: "Load Average", value: sys.load },
+    { label: "Memory", value: sys.memory },
+    { label: "Disk (home)", value: sys.disk },
+  ];
+  metrics.forEach(m => {
+    if (!m.value) return;
+    sgrid.innerHTML += `<div class="metric"><div class="label">${m.label}</div><div class="value mono">${m.value}</div></div>`;
+  });
+}
+
+/* ── Sorting ── */
+const sortState = {};
+
+function applySort(tableId, rows) {
+  const s = sortState[tableId];
+  if (!s) return rows;
+  const { col, dir } = s;
+  const sorted = [...rows];
+  const isNum = (v) => !isNaN(parseFloat(v)) && isFinite(v);
+  sorted.sort((a, b) => {
+    const va = cellValue(a, col, tableId);
+    const vb = cellValue(b, col, tableId);
+    if (isNum(va) && isNum(vb)) {
+      return dir === "asc" ? va - vb : vb - va;
+    }
+    const sa = String(va).toLowerCase();
+    const sb = String(vb).toLowerCase();
+    if (sa < sb) return dir === "asc" ? -1 : 1;
+    if (sa > sb) return dir === "asc" ? 1 : -1;
+    return 0;
+  });
+  return sorted;
+}
+
+function cellValue(row, colIdx, tableId) {
+  if (typeof row === "object" && !Array.isArray(row)) {
+    const keys = {
+      "agents-table": ["display_name","running","health","version","model","cpu_percent","mem_percent","pids","port","config_dir","sessions"],
+      "services-table": ["name","state","sub_state","pid","enabled"],
+      "cron-table": ["source","schedule","command","user","enabled"],
+      "listeners-table": ["port","local_address","process","pid"],
+      "docker-table": ["name","image","ports","status"],
+    };
+    const k = (keys[tableId] || [])[colIdx];
+    if (!k) return "";
+    const v = row[k];
+    if (k === "running" || k === "enabled") return v ? 1 : 0;
+    if (k === "health") return v && v.status === "online" ? 1 : 0;
+    if (k === "pid" || k === "port" || k === "pids") {
+      if (Array.isArray(v)) return v.length;
+      return v || 0;
+    }
+    if (k === "cpu_percent" || k === "mem_percent") return v || 0;
+    return v || "";
+  }
+  return "";
+}
+
+document.querySelectorAll("th.sortable").forEach(th => {
+  th.addEventListener("click", () => {
+    const table = th.closest("table");
+    const tableId = table.id;
+    const col = Array.from(th.parentElement.children).indexOf(th);
+    const current = sortState[tableId];
+    let dir = "asc";
+    if (current && current.col === col && current.dir === "asc") dir = "desc";
+    table.querySelectorAll("th.sortable").forEach(h => h.classList.remove("asc", "desc"));
+    sortState[tableId] = { col, dir };
+    th.classList.add(dir);
+    if (window.lastData) render(window.lastData);
+  });
+});
+
+// Global filter
+document.getElementById("global-filter").addEventListener("input", (e) => {
+  filterText = e.target.value;
+  if (window.lastData) render(window.lastData);
+});
+
+// Close modal on Escape
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeModal();
+});
+document.getElementById("log-modal").addEventListener("click", (e) => {
+  if (e.target.id === "log-modal") closeModal();
+});
+
+fetchData();
+setInterval(fetchData, 5000);
+</script>
+</body>
+</html>

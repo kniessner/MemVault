@@ -12,8 +12,6 @@ cssclasses:
 
 | Name | Status | Priority | Last Updated | Notes |
 |---|---|---|---|---|
-| [[_template\|Example Project Alpha]] | active | p1-high | 2026-01-01 | Placeholder — replace with real projects |
-| [[_template\|Example Project Beta]] | active | p2-medium | 2026-01-01 | Placeholder — replace with real projects |
-| [[_template\|Example Project Gamma]] | on-hold | p3-low | 2026-01-01 | Blocked on external dependency |
+| [[2026-scripts/scripts\|2026 Scripts]] | active | p1-high | 2026-03-28 | Agent monitor, browser CDP, whisper server |
 
 Keep this table updated manually or ask your AI agent to update it.
